@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
+import { CreateEditorApp } from './Components/CreateEditorApp';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
 ReactDOM.render(
-  <App />,
+  <CreateEditorApp />,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
