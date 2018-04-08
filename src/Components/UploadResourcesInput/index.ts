@@ -1,0 +1,1 @@
+export { UploadResourcesInput } from './UploadResourcesInput';
