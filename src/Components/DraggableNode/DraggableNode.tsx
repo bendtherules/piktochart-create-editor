@@ -1,25 +1,51 @@
 import * as React from 'react';
+import './DraggableNode.css';
+import { DragContextProvider, DragSharedInfo, XYPair } from '../../Helpers';
 
-interface OnClickProps {
-    onClick(event: React.MouseEvent<HTMLDivElement>): void;
+interface DraggableNodeProps extends React.HTMLProps<HTMLDivElement> {
+    id: string;
+    containerId: string;
 }
 
-export class DraggableNode extends React.Component {
-    getModifiedChildrenWithAddedClickHandler(): React.ReactElement<OnClickProps>[] {
-        return React.Children.map(this.props.children, (eachChild) => {
-            // tslint:disable-next-line:no-console
-            return React.cloneElement(
-                eachChild as React.ReactElement<OnClickProps>,
-                {
-                    onClick: function (event: React.MouseEvent<HTMLDivElement>) {
-                        // tslint:disable-next-line:no-console
-                        console.log(arguments);
-                    }
-                });
+export class DraggableNode extends React.Component<DraggableNodeProps, {}> {
+
+    calculateTransform(offset: XYPair) {
+        return { transform: `translate(${offset.x}px, ${offset.y}px)` };
+    }
+
+    getContext(): React.Context<DragSharedInfo | undefined> {
+        return DragContextProvider.get(this.props.containerId);
+    }
+
+    renderChildren(dragSharedInfo: DragSharedInfo | undefined): JSX.Element {
+        if (typeof dragSharedInfo === 'undefined') {
+            throw new TypeError('Context provider (DragContainer) absent in current JSX tree');
+        }
+
+        const wrappedDragStartHandler = ((ev: React.MouseEvent<HTMLDivElement>) => {
+            dragSharedInfo.dragStartHandler(this.props.id, ev);
         });
+
+        const offsetForThisNode: XYPair = (dragSharedInfo.offsetMap[this.props.id] || { x: 0, y: 0 });
+        const tmpTransform = this.calculateTransform(offsetForThisNode);
+
+        return (
+            <div className="draggable-node" style={tmpTransform} onMouseDown={wrappedDragStartHandler}>
+                {this.props.children}
+            </div>
+        );
     }
 
     render() {
-        return this.getModifiedChildrenWithAddedClickHandler();
+        const CustomConsumer = this.getContext().Consumer;
+
+        return (
+            <CustomConsumer>
+                {(dragSharedInfo) => {
+                    return this.renderChildren(dragSharedInfo);
+                }
+                }
+            </CustomConsumer>
+        );
     }
 }
