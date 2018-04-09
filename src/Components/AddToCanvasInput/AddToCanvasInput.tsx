@@ -47,19 +47,29 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
     render() {
         return (
             <div className="add-to-canvas-input">
-                <div className="add-text-input">
-                    <h4>Text</h4>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={this.state.textInputValue}
-                        onChange={this.updateInputText}
-                    />
-                    <button id="addText" className="btn btn-default" onClick={this.addTextNodeOnSubmit} >
-                        Add Text
+                <div className="assets">
+                    <h3>Assets</h3>
+                    <div className="text">
+                        <h4>Text</h4>
+                        <input
+                            type="text"
+                            className="form-control"
+                            value={this.state.textInputValue}
+                            onChange={this.updateInputText}
+                        />
+                        <button id="addText" className="btn btn-default" onClick={this.addTextNodeOnSubmit} >
+                            Add Text
                     </button>
+                    </div>
+                    <div className="image">
+                        <h4>Images</h4>
+                        <ul className="list-unstyled">
+                            {/* List of images here 
+                            <li><img src="images/sample.jpeg" class="img-rounded" /></li>  */}
+                        </ul>
+                    </div>
                 </div>
-            </div >
+            </div>
         );
     }
 }

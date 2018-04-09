@@ -1,11 +1,20 @@
-.add-to-canvas-input {
-    padding-left: 0.25em;
+.add-to-canvas-input .assets {
+    width: 100%;
 }
 
-.add-to-canvas-input .desc {
-    padding: 0.5em 0;
+.add-to-canvas-input .assets .text, .add-to-canvas-input .assets .image {
+    margin: 10px 0;
 }
 
-.add-to-canvas-input input {
-    margin: 0.5em 0;
+.add-to-canvas-input .assets .image ul li {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+    float: left;
+    overflow: hidden;
+}
+
+.add-to-canvas-input .assets .image ul li img {
+    width: 100%;
+    height: 100%;
 }
