@@ -35,14 +35,14 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
         fetch('http://localhost:8000/images/')
             .then((response: Response) => {
                 return response.json();
-            })
-            .then((responseJSON: string[]) => {
+            }).then((responseJSON: string[]) => {
                 this.setState({
                     imageURLs: responseJSON
                 });
-            })
-            // tslint:disable-next-line:no-console
-            .catch(error => console.error('Error loading image info:', error));
+            }).catch((error) => {
+                // tslint:disable-next-line:no-console
+                console.error('Error loading image info:', error);
+            });
 
     }
 

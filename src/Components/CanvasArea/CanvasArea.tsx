@@ -43,7 +43,7 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
             const tmpImageNode = this.props.nodes.image[nodeId];
             return (
                 <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
-                    <img draggable={false} src={tmpImageNode.url} width="100px" />
+                    <img draggable={false} src={tmpImageNode.url} style={{ maxWidth: '500px' }} />
                 </DraggableNode>
             );
         });
