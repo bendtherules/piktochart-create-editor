@@ -6,16 +6,49 @@
 
 .canvas-area .block {
     position: relative;
-    width: 100%; 
+    width: 100%;
     height: 600px;
-    
     border: 1px solid;
-  }
+}
 
-  .canvas-area .image-node {
-      max-width: 150px;
-  }
-  
-  .canvas-area .text-node {
+.canvas-area .image-node img{
+    max-width: 150px;
+}
+
+.canvas-area .text-node .value{
     font-size: 2em;
+}
+
+.canvas-area .image-node, .canvas-area .text-node {
+    position: relative;
+}
+
+.canvas-area .image-node .delete, .canvas-area .text-node .delete{
+    position: absolute;
+    visibility: hidden;
+    
+    right: -.75em;
+    top: -.75em;
+
+    width: 1.5em;
+    height: 1.5em;
+
+    border-radius: 50%;
+    border: 1px solid black;
+
+    cursor: pointer;
+}
+
+
+.canvas-area .image-node:hover .delete, .canvas-area .text-node:hover .delete{
+    visibility: visible;
+}
+
+.canvas-area .delete-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 1em;
 }

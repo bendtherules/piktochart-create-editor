@@ -3,7 +3,7 @@ export interface XYPair {
     y: number;
 }
 
-export function deppCloneNaive<T>(originalObject: T): T {
+export function deepCloneNaive<T>(originalObject: T): T {
     return JSON.parse(JSON.stringify(originalObject));
 }
 

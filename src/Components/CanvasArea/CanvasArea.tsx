@@ -14,6 +14,8 @@ interface CanvasAreaProps {
             [nodeId: string]: CanvasImageNode;
         };
     };
+
+    deleteNode(type: 'text' | 'image', nodeId: string): void;
 }
 interface CanvasAreaState {
 }
@@ -27,13 +29,26 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
         this.containerId = 'container-' + uuid();
     }
 
+    renderDeleteNode(type: 'text' | 'image', nodeId: string) {
+        return (
+            <div className="delete" onClick={() => { this.props.deleteNode(type, nodeId); }}>
+                <div className="delete-text">
+                    X
+                </div>
+            </div>
+        );
+    }
+
     renderTextNodes() {
         return Object.keys(this.props.nodes.text).map((nodeId) => {
             const tmpTextNode = this.props.nodes.text[nodeId];
             return (
                 <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
                     <div className="text-node">
-                        {tmpTextNode.value}
+                        {this.renderDeleteNode('text', nodeId)}
+                        <div className="value">
+                            {tmpTextNode.value}
+                        </div>
                     </div>
                 </DraggableNode>
             );
@@ -45,7 +60,10 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
             const tmpImageNode = this.props.nodes.image[nodeId];
             return (
                 <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
-                    <img className="image-node" draggable={false} src={tmpImageNode.url} />
+                    <div className="image-node">
+                        {this.renderDeleteNode('image', nodeId)}
+                        <img draggable={false} src={tmpImageNode.url} />
+                    </div>
                 </DraggableNode>
             );
         });

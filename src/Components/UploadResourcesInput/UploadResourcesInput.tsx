@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './UploadResourcesInput.css';
+import { serverURL } from '../../Helpers';
 
 interface UploadResourcesInputProps {
     notifyImageUploadSuccess(): void;
@@ -29,7 +30,7 @@ export class UploadResourcesInput extends React.Component<UploadResourcesInputPr
 
     onFileSubmit(ev: React.MouseEvent<HTMLButtonElement>) {
         if (this.state.file !== undefined) {
-            const url = 'http://localhost:8000/uploads';
+            const url = `${serverURL}/uploads`;
             const formData = new FormData();
             formData.append('upload', this.state.file);
 

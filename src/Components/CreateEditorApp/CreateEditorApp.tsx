@@ -2,7 +2,7 @@ import * as React from 'react';
 import './CreateEditorApp.css';
 import { Sidebar } from '../Sidebar';
 import { CanvasArea } from '../CanvasArea';
-import { deppCloneNaive, CanvasTextNode, CanvasImageNode } from '../../Helpers';
+import { deepCloneNaive, CanvasTextNode, CanvasImageNode, serverURL } from '../../Helpers';
 
 interface CreateEditorAppState {
   imageURLs: string[];
@@ -31,6 +31,7 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
     this.addOrUpdateTextNode = this.addOrUpdateTextNode.bind(this);
     this.addOrUpdateImageNode = this.addOrUpdateImageNode.bind(this);
     this.onImageUploadSuccess = this.onImageUploadSuccess.bind(this);
+    this.deleteNode = this.deleteNode.bind(this);
   }
 
   componentDidMount() {
@@ -43,7 +44,7 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
   }
 
   fetchImages() {
-    fetch('http://localhost:8000/images/')
+    fetch(`${serverURL}/images/`)
       .then((response: Response) => {
         return response.json();
       }).then((responseJSON: string[]) => {
@@ -77,7 +78,7 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
 
   addOrUpdateTextNode(nodeId: string, textNode: CanvasTextNode): void {
     this.setState((prevState) => {
-      const newState = deppCloneNaive(prevState as CreateEditorAppState);
+      const newState = deepCloneNaive(prevState as CreateEditorAppState);
       newState.text[nodeId] = textNode;
 
       return newState;
@@ -86,8 +87,23 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
 
   addOrUpdateImageNode(nodeId: string, imageNode: CanvasImageNode): void {
     this.setState((prevState) => {
-      const newState = deppCloneNaive(prevState as CreateEditorAppState);
+      const newState = deepCloneNaive(prevState as CreateEditorAppState);
       newState.image[nodeId] = imageNode;
+
+      return newState;
+    });
+  }
+
+  deleteNode(type: 'text' | 'image', nodeId: string): void {
+    this.setState((prevState) => {
+      const newState = deepCloneNaive(prevState as CreateEditorAppState);
+
+      if (type === 'text') {
+        delete newState.text[nodeId];
+      }
+      if (type === 'image') {
+        delete newState.image[nodeId];
+      }
 
       return newState;
     });
@@ -102,7 +118,7 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
           addTextNode={this.addOrUpdateTextNode}
           addImageNode={this.addOrUpdateImageNode}
         />
-        <CanvasArea nodes={this.state} />
+        <CanvasArea nodes={this.state} deleteNode={this.deleteNode} />
       </div>
     );
   }
