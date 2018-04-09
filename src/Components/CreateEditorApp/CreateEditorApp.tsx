@@ -17,6 +17,8 @@ interface CreateEditorAppState {
 }
 
 export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
+  localStorageKey: 'appData';
+
   constructor(props: {}) {
     super(props);
 
@@ -32,6 +34,7 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
   }
 
   componentDidMount() {
+    this.loadFromLocalStorage();
     this.fetchImages();
   }
 
@@ -52,6 +55,24 @@ export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
         console.error('Error loading image info:', error);
       });
 
+  }
+
+  componentDidUpdate() {
+    this.saveToLocalStorage();
+  }
+
+  saveToLocalStorage() {
+    const stateJSON = JSON.stringify(this.state);
+    localStorage.setItem(this.localStorageKey, stateJSON);
+  }
+
+  loadFromLocalStorage() {
+    const stateJSON = localStorage.getItem(this.localStorageKey);
+
+    if (stateJSON) {
+      const stateObject = JSON.parse(stateJSON);
+      this.setState(stateObject);
+    }
   }
 
   addOrUpdateTextNode(nodeId: string, textNode: CanvasTextNode): void {
