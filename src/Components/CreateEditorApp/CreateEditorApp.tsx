@@ -17,7 +17,7 @@ interface CreateEditorAppState {
 }
 
 export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
-  localStorageKey: 'appData';
+  localStorageKey: string = 'appData';
 
   constructor(props: {}) {
     super(props);

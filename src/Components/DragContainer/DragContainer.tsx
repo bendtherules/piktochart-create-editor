@@ -22,6 +22,8 @@ interface DragContainerState {
 }
 
 export class DragContainer extends React.Component<DragContainerProps, DragContainerState> {
+    localStorageKey: string = 'containerData';
+
     constructor(props: DragContainerProps) {
         super(props);
 
@@ -40,6 +42,30 @@ export class DragContainer extends React.Component<DragContainerProps, DragConta
         this.handleDragStartOnDraggableNode = this.handleDragStartOnDraggableNode.bind(this);
         this.handleDragMove = this.handleDragMove.bind(this);
         this.handleDragStop = this.handleDragStop.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadFromLocalStorage();
+    }
+
+    componentDidUpdate() {
+        this.saveToLocalStorage();
+    }
+
+    saveToLocalStorage() {
+        const pastOffsetJSON = JSON.stringify(this.state.pastCumulativeOffsetMap);
+        localStorage.setItem(this.localStorageKey, pastOffsetJSON);
+    }
+
+    loadFromLocalStorage() {
+        const pastOffsetJSON = localStorage.getItem(this.localStorageKey);
+
+        if (pastOffsetJSON) {
+            const pastOffsetObject = JSON.parse(pastOffsetJSON);
+            this.setState({
+                pastCumulativeOffsetMap: pastOffsetObject
+            });
+        }
     }
 
     handleDragStartOnDraggableNode(draggableId: string, ev: React.MouseEvent<HTMLDivElement>): void {
