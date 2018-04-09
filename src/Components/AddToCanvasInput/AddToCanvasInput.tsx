@@ -4,13 +4,14 @@ import './AddToCanvasInput.css';
 import { CanvasTextNode, CanvasImageNode } from '../../Helpers';
 
 interface AddToCanvasInputProps {
+    imageURLs: string[];
+
     addTextNode(nodeId: string, textNode: CanvasTextNode): void;
     addImageNode(nodeId: string, imgNode: CanvasImageNode): void;
 }
 
 interface AddToCanvasInputState {
     textInputValue: string;
-    imageURLs: string[];
 }
 
 export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, AddToCanvasInputState> {
@@ -19,31 +20,11 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
 
         this.state = {
             textInputValue: '',
-            imageURLs: []
         };
 
         this.updateInputText = this.updateInputText.bind(this);
         this.addTextNodeOnSubmit = this.addTextNodeOnSubmit.bind(this);
         this.addImageNodeOnSubmit = this.addImageNodeOnSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        this.fetchImages();
-    }
-
-    fetchImages() {
-        fetch('http://localhost:8000/images/')
-            .then((response: Response) => {
-                return response.json();
-            }).then((responseJSON: string[]) => {
-                this.setState({
-                    imageURLs: responseJSON
-                });
-            }).catch((error) => {
-                // tslint:disable-next-line:no-console
-                console.error('Error loading image info:', error);
-            });
-
     }
 
     updateInputText(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -98,7 +79,7 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
                         <h4>Images</h4>
                         <ul className="list-unstyled">
                             {
-                                this.state.imageURLs.map((imgURL) => {
+                                this.props.imageURLs.map((imgURL) => {
                                     return (
                                         <li key={imgURL}>
                                             <img

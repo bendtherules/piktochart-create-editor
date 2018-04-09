@@ -2,8 +2,9 @@ import * as React from 'react';
 import './UploadResourcesInput.css';
 
 interface UploadResourcesInputProps {
-
+    notifyImageUploadSuccess(): void;
 }
+
 interface UploadResourcesInputState {
     file: File | undefined;
 }
@@ -39,11 +40,12 @@ export class UploadResourcesInput extends React.Component<UploadResourcesInputPr
 
                 return response.json();
 
-            }).then(function (responseJson: { message?: string, file?: string }) {
+            }).then((responseJson: { message?: string, file?: string }) => {
 
                 // tslint:disable-next-line:no-console
                 if (responseJson.file) {
-                    
+                    this.props.notifyImageUploadSuccess();
+
                     // tslint:disable-next-line:no-console
                     console.log('File uploaded: ' + responseJson.file);
 
