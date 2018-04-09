@@ -1,6 +1,8 @@
 Create Editor App
 =====================
 
+![Pingu Screenshot](./screen.png)
+
 ## Dev setup
 
 ### To set up the environment dependencies ( node version 5++ )
