@@ -1,3 +1,11 @@
-.drag-container {
-    overflow: hidden;
+.add-to-canvas-input {
+    padding-left: 0.25em;
+}
+
+.add-to-canvas-input .desc {
+    padding: 0.5em 0;
+}
+
+.add-to-canvas-input input {
+    margin: 0.5em 0;
 }

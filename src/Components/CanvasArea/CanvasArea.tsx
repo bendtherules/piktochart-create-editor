@@ -37,9 +37,9 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
 
     render() {
         return (
-            <div className="canvas-area">
+            <div className="canvas-area col-sm-8 col-md-8 col-lg-8">
                 <DragContainer id={this.containerId} >
-                    <div className="drag-container-inner" style={{ width: '500px', height: '500px' }}>
+                    <div className="block">
                         {
                             this.renderDraggableNodes()
                         }

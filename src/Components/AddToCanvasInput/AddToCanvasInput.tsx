@@ -48,13 +48,18 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
         return (
             <div className="add-to-canvas-input">
                 <div className="add-text-input">
-                    <div className="desc">
-                        Add text
-                    </div>
-                    <input type="text" value={this.state.textInputValue} onChange={this.updateInputText} />
-                    <input type="button" value="Add" onClick={this.addTextNodeOnSubmit} />
+                    <h4>Text</h4>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={this.state.textInputValue}
+                        onChange={this.updateInputText}
+                    />
+                    <button id="addText" className="btn btn-default" onClick={this.addTextNodeOnSubmit} >
+                        Add Text
+                    </button>
                 </div>
-            </div>
+            </div >
         );
     }
 }
