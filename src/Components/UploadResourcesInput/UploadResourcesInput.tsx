@@ -10,10 +10,9 @@ interface UploadResourcesInputState {
 export class UploadResourcesInput extends React.Component<UploadResourcesInputProps, UploadResourcesInputState> {
     constructor(props: UploadResourcesInputProps) {
         super(props);
-
     }
 
-
     render() {
+        return '';
     }
 }

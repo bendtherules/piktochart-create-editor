@@ -6,6 +6,7 @@
   "author": "jun",
   "license": "ISC",
   "dependencies": {
+    "classnames": "^2.2.5",
     "express": "^4.13.4",
     "jquery": "^2.2.3",
     "junk": "^1.0.2",
@@ -13,7 +14,8 @@
     "nodemon": "^1.9.1",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
-    "react-scripts-ts": "2.14.0"
+    "react-scripts-ts": "2.14.0",
+    "uuid": "^3.2.1"
   },
   "scripts": {
     "start-server": "nodemon ./server/server.js",
@@ -23,10 +25,12 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/jest": "^22.2.2",
     "@types/node": "^9.6.2",
     "@types/react": "^16.3.5",
     "@types/react-dom": "^16.0.4",
+    "@types/uuid": "^3.4.3",
     "typescript": "^2.8.1"
   }
 }

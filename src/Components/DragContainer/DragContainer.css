@@ -1,3 +1,9 @@
 .drag-container {
     overflow: hidden;
+
+    position: relative;
+}
+
+.drag-container.dragging {
+    cursor: move;
 }

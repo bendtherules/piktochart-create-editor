@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import './DragContainer.css';
 import { DragContextProvider, DragSharedInfo, XYPair } from '../../Helpers';
 
@@ -129,10 +130,16 @@ export class DragContainer extends React.Component<DragContainerProps, DragConta
             offsetMap: currentOffsetMap
         };
 
+        const defaultClassName = 'drag-container';
+        const classNamesArray = [defaultClassName];
+        if (this.state.ongoing.dragging) {
+            classNamesArray.push('dragging');
+        }
+
         return (
             <CustomProvider value={providerValue}>
                 <div
-                    className="drag-container"
+                    className={classNames(classNamesArray)}
                     onMouseMove={this.handleDragMove}
                     onMouseUp={this.handleDragStop}
                     // tslint:disable-next-line:no-console

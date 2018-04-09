@@ -1,32 +1,40 @@
 import * as React from 'react';
 import './CreateEditorApp.css';
-import { DragContainer } from '../DragContainer';
-import { DraggableNode } from '../DraggableNode';
+import { Sidebar } from '../Sidebar';
+import { CanvasArea } from '../CanvasArea';
+import { deppCloneNaive, CanvasTextNode } from '../../Helpers';
 
-const logo = require('./logo.svg');
+interface CreateEditorAppState {
+  text: {
+    [nodeId: string]: CanvasTextNode;
+  };
+}
 
-export class CreateEditorApp extends React.Component {
-  logFn() {
-    // tslint:disable-next-line:no-console
-    console.log(arguments);
+export class CreateEditorApp extends React.Component<{}, CreateEditorAppState> {
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      text: {}
+    };
+
+    this.addOrUpdateTextNode = this.addOrUpdateTextNode.bind(this);
+  }
+
+  addOrUpdateTextNode(nodeId: string, textNode: CanvasTextNode): void {
+    this.setState((prevState) => {
+      const newState = deppCloneNaive(prevState as CreateEditorAppState);
+      newState.text[nodeId] = textNode;
+
+      return newState;
+    });
   }
 
   render() {
     return (
-      <div className="App">
-        <DragContainer id="test">
-          <header className="App-header">
-            <DraggableNode id="test-img" containerId="test">
-              <img src={logo} className="App-logo" alt="logo" draggable={false} />
-            </DraggableNode>
-            <DraggableNode id="test-text" containerId="test">
-              <h1 className="App-title">Welcome to React</h1>
-            </DraggableNode>
-          </header>
-        </DragContainer>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div className="create-editor-app">
+        <Sidebar addTextNode={this.addOrUpdateTextNode} />
+        <CanvasArea nodes={this.state}/>
       </div>
     );
   }
