@@ -11,3 +11,11 @@
     
     border: 1px solid;
   }
+
+  .canvas-area .image-node {
+      max-width: 150px;
+  }
+  
+  .canvas-area .text-node {
+    font-size: 2em;
+}

@@ -32,7 +32,9 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
             const tmpTextNode = this.props.nodes.text[nodeId];
             return (
                 <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
-                    {tmpTextNode.value}
+                    <div className="text-node">
+                        {tmpTextNode.value}
+                    </div>
                 </DraggableNode>
             );
         });
@@ -43,7 +45,7 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
             const tmpImageNode = this.props.nodes.image[nodeId];
             return (
                 <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
-                    <img draggable={false} src={tmpImageNode.url} style={{ maxWidth: '500px' }} />
+                    <img className="image-node" draggable={false} src={tmpImageNode.url} />
                 </DraggableNode>
             );
         });
