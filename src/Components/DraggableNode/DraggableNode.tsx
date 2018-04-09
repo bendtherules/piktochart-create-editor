@@ -41,9 +41,10 @@ export class DraggableNode extends React.Component<DraggableNodeProps, {}> {
 
         return (
             <CustomConsumer>
-                {(dragSharedInfo) => {
-                    return this.renderChildren(dragSharedInfo);
-                }
+                {
+                    (dragSharedInfo) => {
+                        return this.renderChildren(dragSharedInfo);
+                    }
                 }
             </CustomConsumer>
         );
