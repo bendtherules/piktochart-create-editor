@@ -1,2 +1,2 @@
 export { DragContextProvider, DragStartFn, DragSharedInfo } from './DragContextProvider';
-export { XYPair, deppCloneNaive, CanvasTextNode } from './utils';
+export { XYPair, deppCloneNaive, CanvasTextNode, CanvasImageNode } from './utils';

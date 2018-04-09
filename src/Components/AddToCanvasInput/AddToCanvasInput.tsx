@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as uuid from 'uuid/v4';
 import './AddToCanvasInput.css';
-import { CanvasTextNode } from '../../Helpers';
+import { CanvasTextNode, CanvasImageNode } from '../../Helpers';
 
 interface AddToCanvasInputProps {
     addTextNode(nodeId: string, textNode: CanvasTextNode): void;
+    addImageNode(nodeId: string, imgNode: CanvasImageNode): void;
 }
 
 interface AddToCanvasInputState {
     textInputValue: string;
+    imageURLs: string[];
 }
 
 export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, AddToCanvasInputState> {
@@ -16,11 +18,32 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
         super(props);
 
         this.state = {
-            textInputValue: ''
+            textInputValue: '',
+            imageURLs: []
         };
 
         this.updateInputText = this.updateInputText.bind(this);
         this.addTextNodeOnSubmit = this.addTextNodeOnSubmit.bind(this);
+        this.addImageNodeOnSubmit = this.addImageNodeOnSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.fetchImages();
+    }
+
+    fetchImages() {
+        fetch('http://localhost:8000/images/')
+            .then((response: Response) => {
+                return response.json();
+            })
+            .then((responseJSON: string[]) => {
+                this.setState({
+                    imageURLs: responseJSON
+                });
+            })
+            // tslint:disable-next-line:no-console
+            .catch(error => console.error('Error loading image info:', error));
+
     }
 
     updateInputText(ev: React.ChangeEvent<HTMLInputElement>) {
@@ -44,6 +67,16 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
         }
     }
 
+    addImageNodeOnSubmit(ev: React.MouseEvent<HTMLImageElement>) {
+        const imageURL = ev.currentTarget.src;
+        const nodeId = uuid();
+
+        this.props.addImageNode(nodeId, {
+            url: imageURL,
+            position: { x: 0, y: 0 }
+        });
+    }
+
     render() {
         return (
             <div className="add-to-canvas-input">
@@ -64,8 +97,19 @@ export class AddToCanvasInput extends React.Component<AddToCanvasInputProps, Add
                     <div className="image">
                         <h4>Images</h4>
                         <ul className="list-unstyled">
-                            {/* List of images here 
-                            <li><img src="images/sample.jpeg" class="img-rounded" /></li>  */}
+                            {
+                                this.state.imageURLs.map((imgURL) => {
+                                    return (
+                                        <li key={imgURL}>
+                                            <img
+                                                src={imgURL}
+                                                className="img-rounded"
+                                                onClick={this.addImageNodeOnSubmit}
+                                            />
+                                        </li>
+                                    );
+                                })
+                            }
                         </ul>
                     </div>
                 </div>

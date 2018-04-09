@@ -10,4 +10,9 @@ export function deppCloneNaive<T>(originalObject: T): T {
 export interface CanvasTextNode {
     value: string;
     position: XYPair;
-  }
+}
+
+export interface CanvasImageNode {
+    url: string;
+    position: XYPair;
+}

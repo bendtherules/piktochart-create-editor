@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as uuid from 'uuid/v4';
 import './CanvasArea.css';
-import { CanvasTextNode } from '../../Helpers';
+import { CanvasTextNode, CanvasImageNode } from '../../Helpers';
 import { DragContainer } from '../DragContainer';
 import { DraggableNode } from '../DraggableNode';
 
@@ -10,6 +10,9 @@ interface CanvasAreaProps {
         text: {
             [nodeId: string]: CanvasTextNode;
         }
+        image: {
+            [nodeId: string]: CanvasImageNode;
+        };
     };
 }
 interface CanvasAreaState {
@@ -24,7 +27,7 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
         this.containerId = 'container-' + uuid();
     }
 
-    renderDraggableNodes() {
+    renderTextNodes() {
         return Object.keys(this.props.nodes.text).map((nodeId) => {
             const tmpTextNode = this.props.nodes.text[nodeId];
             return (
@@ -33,6 +36,26 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
                 </DraggableNode>
             );
         });
+    }
+
+    renderImageNodes() {
+        return Object.keys(this.props.nodes.image).map((nodeId) => {
+            const tmpImageNode = this.props.nodes.image[nodeId];
+            return (
+                <DraggableNode key={nodeId} id={nodeId} containerId={this.containerId}>
+                    <img draggable={false} src={tmpImageNode.url} width="100px" />
+                </DraggableNode>
+            );
+        });
+    }
+
+    renderDraggableNodes() {
+        return (
+            <React.Fragment>
+                {this.renderTextNodes()}
+                {this.renderImageNodes()}
+            </React.Fragment>
+        );
     }
 
     render() {
@@ -46,19 +69,6 @@ export class CanvasArea extends React.Component<CanvasAreaProps, CanvasAreaState
                     </div>
                 </DragContainer>
             </div>
-            // <DragContainer id="test">
-            //   <header className="App-header">
-            //     <DraggableNode id="test-img" containerId="test">
-            //       <img src={logo} className="App-logo" alt="logo" draggable={false} />
-            //     </DraggableNode>
-            //     <DraggableNode id="test-text" containerId="test">
-            //       <h1 className="App-title">Welcome to React</h1>
-            //     </DraggableNode>
-            //   </header>
-            // </DragContainer>
-            // <p className="App-intro">
-            //   To get started, edit <code>src/App.tsx</code> and save to reload.
-            // </p>
         );
     }
 }
